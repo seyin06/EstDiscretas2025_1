@@ -1,0 +1,10 @@
+*.md~
+*.java~
+*.class
+*.gitignore~
+*-tex~
+*.toc
+*.out
+*.log
+*.hs~
+*.aux
