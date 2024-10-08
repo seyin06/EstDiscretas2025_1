@@ -13,15 +13,21 @@ agregaElemento lista elemento valor =
   else lista ++ [elemento]
 
 maximoLista :: (Num a, Ord a) => [a] -> a
-maximoLista [] = 0
+maximoLista [] = error "La lista está vacía"
+maximoLista [x] = x
 maximoLista (x:xs) =
   if x > maximoLista xs
   then x
   else maximoLista xs
 
 indice :: [a] -> Int -> a
-indice (x:_) 0 = x
-indice (_:xs) n = indice xs (n-1)
+indice [] = error "La lista está vacía"                              
+indice (_:xs) n =
+    if n > 0 && n <= longitud xs
+    then indice xs (n-1)
+    else if n == 0
+    then error "El número no es válido"
+    else error "Indice fuera de rango"
 
 divisores :: Int -> [Int]
 divisores n = [x | x <- [1..n],mod n x == 0]
