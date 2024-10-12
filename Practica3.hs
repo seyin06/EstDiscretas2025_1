@@ -28,20 +28,19 @@ conjunto (Node x lista) =
 
 eliminarIndice :: List a -> Int -> List a
 eliminarIndice Void indice = error "Indice fuera del rango permitido."
-eliminarIndice (Node a lista) indice =
-      if indice ==  0
-      then lista
-      else Node a (eliminarIndice lista (indice -1))
+eliminarIndice (Node a lista) 0 = lista
+eliminarIndice (Node a resto) indice =
+      if indice < 0 || indice > (longitud resto)
+      then error "Indice fuera del rango permitido"
+      else Node a (eliminarIndice resto (indice -1))
 
 insertarIndice :: List a -> Int -> a -> List a
-insertarIndice lista indice nuevoElem =
-    if indice < 0 || indice > longitud lista
+insertarIndice Void 0 nuevoElem = Node nuevoElem Void
+insertarIndice (Node a resto) 0 nuevoElem = Node nuevoElem (Node a resto)
+insertarIndice (Node a resto) indice nuevoElem =
+    if indice < 0 || indice > longitud (Node a resto)
     then error "Indice fuera de rango permitido"
-    else if indice == 0
-         then Node nuevoElem lista
-         else case lista of
-              Void -> error "Indice fuera del rango permitido."
-              Node a resto -> Node a (insertarIndice resto (indice - 1) nuevoElem)
+    else Node a (insertarIndice resto (indice - 1) nuevoElem)
 
 recorrerLista :: List a -> Int -> List a
 recorrerLista Void _ = Void
