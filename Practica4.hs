@@ -25,43 +25,43 @@ minimo :: Ord a => Arbol a -> a
 minimo ArbolVacio = error "Arbol vacio"
 minimo (Raiz x ArbolVacio ArbolVacio) = x
 minimo (Raiz x izquierdo derecho) = if x <= minimo izquierdo && x <= minimo derecho
-                                    then x
-				     				else if minimo izquierdo < minimo derecho
-				     					then minimo izquierdo
-				     					else minimo derecho
+                                       then x
+				       else if minimo izquierdo < minimo derecho
+				     	       then minimo izquierdo
+				     	       else minimo derecho
 
 maximo :: Ord a => Arbol a -> a
 maximo ArbolVacio = error "Arbol vacio"
 maximo (Raiz x ArbolVacio ArbolVacio) = x
 maximo (Raiz x izquierdo derecho) = if x >= maximo izquierdo && x >= maximo derecho
-                                    then x
-									else if maximo izquierdo > maximo derecho
-										then maximo izquierdo
-										else maximo derecho
+                                       then x
+				       else if maximo izquierdo > maximo derecho
+					       then maximo izquierdo
+					       else maximo derecho
 
 eliminar :: Ord a => Arbol a -> a -> Arbol a
 eliminar ArbolVacio _ = error "Arbol vacio"
 eliminar (Raiz x izquierda derecha) valor = if valor < x
-                                            then Raiz x (eliminar izquierda valor) derecha
-					     					else if valor > x
-					     						then Raiz x izquierda (eliminar derecha valor)
-					     						else if izquierda == ArbolVacio
-					     							then derecha
-					     							else if derecha == ArbolVacio
-					     								then izquierda
-					     								else Raiz minValor izquierda nuevoDer
-					        							where
-														minValor = minimo derecha
-														nuevoDer = eliminar derecha minValor
+                                               then Raiz x (eliminar izquierda valor) derecha
+					       else if valor > x
+					     	       then Raiz x izquierda (eliminar derecha valor)
+					     	       else if izquierda == ArbolVacio
+					     		       then derecha
+					     		       else if derecha == ArbolVacio
+					     			       then izquierda
+					     			       else Raiz minValor izquierda nuevoDer
+					        		            where
+									    minValor = minimo derecha
+									    nuevoDer = eliminar derecha minValor
 
 data Recorrido = InOrder | PreOrder | PostOrder deriving (Eq, Show)
 
 recorrido :: Arbol a -> Recorrido -> [a]
 recorrido ArbolVacio _ = []
 recorrido (Raiz x izquierdo derecho) orden = if orden == InOrder
-                                            then recorrido izquierdo InOrder ++ [x] ++ recorrido derecho InOrder
-											else if orden == PreOrder
-					      						then [x] ++ recorrido izquierdo PreOrder ++ recorrido derecho PreOrder
-					      						else if orden == PostOrder
-					      							then recorrido izquierdo PostOrder ++ recorrido derecho PostOrder ++ [x]
-					      							else []
+                                                then recorrido izquierdo InOrder ++ [x] ++ recorrido derecho InOrder
+						else if orden == PreOrder
+					      		then [x] ++ recorrido izquierdo PreOrder ++ recorrido derecho PreOrder
+					      		else if orden == PostOrder
+					      			then recorrido izquierdo PostOrder ++ recorrido derecho PostOrder ++ [x]
+					      			else []
